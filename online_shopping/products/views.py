@@ -1,7 +1,11 @@
 from django.shortcuts import render
-from .models import Product
+from .models import Product, ProductCategory
 
 def index(request):
     products = Product.objects.all()
-    #print(products[0].image)
-    return render(request, 'index.html',{'products':products})
+    categorys = ProductCategory.objects.all()
+    context = {
+        'products': products,
+        'categorys' : categorys
+    }
+    return render(request, 'index.html',context)
