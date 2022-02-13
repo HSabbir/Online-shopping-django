@@ -28,6 +28,7 @@ class Product(models.Model):
         if self.discount_rate > 0:
             discounted_price = self.price - self.price * self.discount_rate / 100
             return discounted_price
+        return self.price
 
 
 
