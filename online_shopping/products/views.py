@@ -1,22 +1,14 @@
 from django.shortcuts import render
-from .models import Product, ProductCategory
+from django.utils import timezone
 
-
+from .business_logic import getProductData
 def index(request):
-    products = Product.objects.all()
-    categorys = ProductCategory.objects.all()
-    context = {
-        'products': products,
-        'categorys': categorys
-    }
+    context = getProductData()
+
     return render(request, 'index.html', context)
 
 
 def product(request):
-    products = Product.objects.all()
-    categorys = ProductCategory.objects.all()
-    context = {
-        'products': products,
-        'categorys': categorys
-    }
+    context = getProductData()
+
     return render(request, 'product.html', context)
