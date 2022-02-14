@@ -3,7 +3,7 @@ from django.utils import timezone
 
 from .business_logic import getProductData, getProductById
 
-def index(request):
+def homeView(request):
     context = getProductData()
 
     return render(request, 'index.html', context)
