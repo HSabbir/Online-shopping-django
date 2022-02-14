@@ -29,3 +29,18 @@ def getProductData():
     }
 
     return context
+
+def getProductById(id):
+    product = Product.objects.get(id=id)
+    categorys = ProductCategory.objects.all()
+    related_products = Product.objects.filter(category = product.category).exclude(id=id)
+
+    print(related_products)
+
+    context = {
+        'product': product,
+        'categorys': categorys,
+        'related_products': related_products,
+    }
+
+    return context
