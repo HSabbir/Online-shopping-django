@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.utils import timezone
 
-from .business_logic import getProductData, getProductById
+from .business_logic import getProductData, getProductById, getProductByCategory
 
 def homeView(request):
     context = getProductData()
@@ -14,8 +14,12 @@ def product(request):
 
     return render(request, 'product.html', context)
 
-def product_details(request, id):
-    context = getProductById(id)
+def product_details(request, slug):
+    context = getProductById(slug)
 
     return render(request, 'product_details.html', context)
+
+def filter_products(request, category):
+    context = getProductByCategory(category)
+    return render(request, 'product.html',context)
 

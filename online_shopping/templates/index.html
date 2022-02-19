@@ -14,7 +14,7 @@
                         </div>
                         <ul>
                             {% for category in categorys%}
-                                <li><a href="#">{{category.name}}</a></li>
+                                <li><a href="{% url 'filter_products' category.slug %}">{{category.name}}</a></li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -63,7 +63,7 @@
                     {% for category in categorys %}
                     <div class="col-lg-3">
                         <div class="categories__item set-bg" data-setbg="{{category.image.url}}">
-                            <h5><a href="#">{{category.name}}</a></h5>
+                            <h5><a href="{% url 'filter_products' category.slug %}">{{category.name}}</a></h5>
                         </div>
                     </div>
                     {% endfor %}
@@ -104,7 +104,7 @@
                             </ul>
                         </div>
                         <div class="featured__item__text">
-                            <h6><a href="{% url 'product_details' product.id %}">{{product.name}}</a></h6>
+                            <h6><a href="{% url 'product_details' product.slug %}">{{product.name}}</a></h6>
                             <h5>{{product.price}} Tk</h5>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                             {% for product in recent_products_demo %}
                                 <div class="latest-prdouct__slider__item">
                                     {% for p in product %}
-                                    <a href="{% url 'product_details' p.id %}" class="latest-product__item">
+                                    <a href="{% url 'product_details' p.slug %}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img src="{{p.images.url}}" alt="">
                                         </div>
