@@ -203,8 +203,16 @@ iframe {
   width: 100%;
 }
 
+.logo{
+  margin-top: -5px;
+}
+.logo-img{
+  margin-left: 40%;
+  horiz-align: center;
+}
+
 .login100-form-title {
-  display: block;
+  display: compact;
   font-family: SourceSansPro-Bold;
   font-size: 30px;
   color: #4b2354;
