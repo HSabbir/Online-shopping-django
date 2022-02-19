@@ -1,0 +1,51 @@
+{% extends 'base_login.html' %}
+
+
+{% block content %}
+    {% if not request.user.is_authenticated %}
+    <div>
+        <br><br>
+        {% if error %}
+        <p>{{error}}</p>
+        {% endif %}
+        <form class="login100-form validate-form" method="post">
+            {% csrf_token %}
+                <span class="login100-form-title p-b-37">
+					Register
+				</span>
+				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
+                    <input class="input100" type="text" name="username" maxlength="150" autocapitalize="none"
+                            required="" id="id_username"
+                           placeholder="username"
+                    >
+					<span class="focus-input100"></span>
+				</div>
+                <div class="wrap-input100 validate-input m-b-25" data-validate = "Enter password">
+                    <input class="input100" type="password" name="password1" placeholder="password" required="" id="id_password1">
+					<span class="focus-input100"></span>
+				</div>
+                <div class="wrap-input100 validate-input m-b-25" data-validate = "Enter password">
+                    <input class="input100" type="password" name="password2" placeholder="confirm password" required="" id="id_password2">
+					<span class="focus-input100"></span>
+				</div>
+                <div class="container-login100-form-btn">
+					<button class="login100-form-btn" type="submit">
+						Register
+					</button>
+				</div>
+                <div class="text-center p-t-57 p-b-20">
+					<span class="txt1">
+						Alraedy have an account?
+					</span>
+				</div>
+                <div class="text-center">
+					<a href="#" class="txt2 hov1">
+						Login
+					</a>
+				</div>
+        </form>
+    </div>
+    {% else %}
+    <p>You are already registered and logged in. Want to <a href="#">Logout</a>?</p>
+    {% endif %}
+{% endblock %}
