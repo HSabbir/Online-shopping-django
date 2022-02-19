@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import pre_save, post_save
 
 from .utils import slugify_instance_title
@@ -19,6 +20,21 @@ class ProductCategory(models.Model):
 
         super().save(*args, **kwargs)
 
+
+class ProductQuerySet(models.QuerySet):
+    def search(self, query=None):
+        if query is None or query == "":
+            return self.none()
+        lookups = Q(name__icontains=query) | Q(description__icontains=query) | Q(category__name__icontains=query)
+        return self.filter(lookups)
+
+class ProductManager(models.Manager):
+    def get_queryset(self):
+        return ProductQuerySet(self.model, using=self._db)
+
+    def search(self, query=None):
+        return self.get_queryset().search(query=query)
+
 class Product(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(blank=True, null=True)
@@ -33,6 +49,8 @@ class Product(models.Model):
     added_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
     category = models.ForeignKey(ProductCategory, on_delete=models.SET_NULL, null=True, blank=True)
+
+    objects = ProductManager()
 
     @property
     def discount(self):
