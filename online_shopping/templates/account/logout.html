@@ -1,0 +1,36 @@
+{% extends 'base_login.html' %}
+
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="text-center p-t-57 p-b-20">
+                <span class="txt1">
+                    Are you sure you want to logout?
+                </span>
+            </div>
+            <div class="container-login100-form-btn">
+                <button class="login100-form-btn" type="submit">
+                    Yes, logout
+                </button>
+            </div>
+
+        </form>
+    </div>
+    {% else %}
+    <div class="text-center p-t-57 p-b-20">
+        <span class="txt1">
+            you are not loged in. Are you want to login?
+        </span>
+    </div>
+    <div class="container-login100-form-btn">
+        <a href="{% url 'login' %}" class="txt2 hov1">
+            <button class="login100-form-btn">
+                Login
+            </button>
+        </a>
+    </div>
+    {% endif %}
+{% endblock %}
