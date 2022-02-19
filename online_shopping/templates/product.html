@@ -15,7 +15,7 @@
                         </div>
                         <ul>
                             {% for category in categorys%}
-                                <li><a href="#">{{category.name}}</a></li>
+                                <li><a href="{% url 'filter_products' category.slug %}">{{category.name}}</a></li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -23,12 +23,18 @@
                 <div class="col-lg-9">
                     <div class="hero__search">
                         <div class="hero__search__form">
-                            <form action="#">
-                                <div class="hero__search__categories">
-                                    All Categories
-                                    <span class="arrow_carrot-down"></span>
-                                </div>
-                                <input type="text" placeholder="What do yo u need?">
+                            <form action="{% url 'product_search' %}">
+<!--                                <div class="hero__search__categories">-->
+<!--                                    All Categories-->
+<!--                                    <span class="arrow_carrot-down"></span>-->
+<!--                                </div>-->
+<!--                                <select class="selectpicker"-->
+<!--                                    data-style="btn-success">-->
+<!--                                    {% for category in categorys %}-->
+<!--                                    <option>{{category.name}}</option>-->
+<!--                                    {% endfor %}-->
+<!--                                </select>-->
+                                <input type="text" name="q" placeholder="What do yo u need?">
                                 <button type="submit" class="site-btn">SEARCH</button>
                             </form>
                         </div>
@@ -74,7 +80,7 @@
                             <h4>Department</h4>
                             <ul>
                                 {% for category in categorys%}
-                                    <li><a href="#">{{category.name}}</a></li>
+                                    <li><a href="{% url 'filter_products' category.slug %}">{{category.name}}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -161,6 +167,7 @@
 <!--                                </label>-->
 <!--                            </div>-->
 <!--                        </div>-->
+                        {% if recent_products_demo %}
                         <div class="sidebar__item">
                             <div class="latest-product__text">
                         <h4>Latest Products</h4>
@@ -168,7 +175,7 @@
                             {% for product in recent_products_demo %}
                                 <div class="latest-prdouct__slider__item">
                                     {% for p in product %}
-                                    <a href="{% url 'product_details' p.id %}" class="latest-product__item">
+                                    <a href="{% url 'product_details' p.slug %}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img src="{{p.images.url}}" alt="">
                                         </div>
@@ -183,8 +190,11 @@
                         </div>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
+
+                {% if products %}
                 <div class="col-lg-9 col-md-7">
                     <div class="product__discount">
                         <div class="section-title product__discount__title">
@@ -193,12 +203,12 @@
                         <div class="row">
                             <div class="product__discount__slider owl-carousel">
                                 {% for product in products %}
-                                {% if product.discount_rate > 0 %}
+                                {% if product.discountRate > 0 %}
                                     <div class="col-lg-4">
                                         <div class="product__discount__item">
                                             <div class="product__discount__item__pic set-bg"
                                                 data-setbg="{{product.images.url}}">
-                                                <div class="product__discount__percent">-{{product.discount_rate}}%</div>
+                                                <div class="product__discount__percent">-{{product.discountRate}}%</div>
                                                 <ul class="product__item__pic__hover">
 <!--                                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>-->
 <!--                                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>-->
@@ -207,7 +217,7 @@
                                             </div>
                                             <div class="product__discount__item__text">
                                                 <span>{{product.category.name}}</span>
-                                                <h5><a href="{% url 'product_details' product.id %}">{{product.name}}</a></h5>
+                                                <h5><a href="{% url 'product_details' product.slug %}">{{product.name}}</a></h5>
                                                 <div class="product__item__price">
                                                     {{product.discount}} Tk
                                                     <span>${{product.price}} Tk</span>
@@ -257,7 +267,7 @@
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><a href="{% url 'product_details' product.id %}">{{product.name}}</a></h6>
+                                    <h6><a href="{% url 'product_details' product.slug %}">{{product.name}}</a></h6>
                                     <h5>{{product.price}} Tk</h5>
                                 </div>
                             </div>
@@ -271,6 +281,9 @@
                         <a href="#"><i class="fa fa-long-arrow-right"></i></a>
                     </div>
                 </div>
+                {% else %}
+                <h2 class="section-title">Dit not match any product</h2>
+                {% endif %}
             </div>
         </div>
     </section>

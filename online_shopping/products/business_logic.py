@@ -7,7 +7,6 @@ from datetime import datetime
 
 def getProductData():
     products = Product.objects.all()
-    categorys = ProductCategory.objects.all()
 
     today = timezone.now().date()
     last_day = today - timezone.timedelta(days=7)
@@ -23,24 +22,33 @@ def getProductData():
     print(recent_products_demo)
     context = {
         'products': products,
-        'categorys': categorys,
-        'recent_products': recent_products,
+        'categorys': getCategorys(),
         'recent_products_demo': recent_products_demo
     }
 
     return context
 
-def getProductById(id):
-    product = Product.objects.get(id=id)
-    categorys = ProductCategory.objects.all()
-    related_products = Product.objects.filter(category = product.category).exclude(id=id)
 
-    print(related_products)
+def getCategorys():
+    return ProductCategory.objects.all()
+
+def getProductById(slug):
+    product = Product.objects.get(slug=slug)
+    related_products = Product.objects.filter(category = product.category).exclude(slug=slug)
 
     context = {
         'product': product,
-        'categorys': categorys,
+        'categorys': getCategorys(),
         'related_products': related_products,
     }
 
+    return context
+
+def getProductByCategory(category):
+    products = Product.objects.filter(category__slug = category)
+
+    context = {
+        'products' : products,
+        'categorys': getCategorys(),
+    }
     return context
