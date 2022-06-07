@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import pre_save, post_save
-
+from accounts.models import Customer
 from .utils import slugify_instance_title
 
 class ProductCategory(models.Model):
@@ -65,6 +65,22 @@ class Product(models.Model):
 
         super().save(*args, **kwargs)
 
+
+class Order(models.Model):
+    customer = models.ForeignKey(Customer, related_name='customer', on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+    date_ordered = models.DateTimeField(auto_now=True)
+    transaction_id = models.CharField(max_length=40)
+
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, related_name='item',on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, related_name='order',on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
+
+    @property
+    def get_total(self):
+        total = self.product.discount * self.quantity
+        return total
 
 def slug_pre_save(sender,instance, *args, **kwargs):
     if instance.slug is None:

@@ -1,7 +1,9 @@
 from django.contrib import admin
 
-from .models import Product,ProductCategory
+from .models import Product,ProductCategory,Order,OrderItem
 
+admin.site.register(Order)
+admin.site.register(OrderItem)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['id' , 'name', 'images','price','available_stock','added_time','updated_time']
     search_fields = ['name', 'description']
